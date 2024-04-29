@@ -1,16 +1,23 @@
 import { useProductQuery } from "@/hooks/useProductQuery";
 import { IProduct } from "@/interfaces/product";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { toast } from "@/components/ui/use-toast";
 import useProductMutation from "@/hooks/useProductMutation";
+import { useLocalStorage } from "@/hooks/useStorage";
 
 const ProductManagement = () => {
     const { data: products, isLoading, isError } = useProductQuery();
     const queryClient = useQueryClient();
+    const [user] = useLocalStorage('user', {});
+    const userRole = user?.user?.role;
+    const navigate = useNavigate();
+    // console.log(userRole);
 
+    // const userRole = user?.user?.role;
+    // console.log(userRole);
 
     const removeProduct = useMutation({
         mutationFn: async (_id: string | number) => {
@@ -36,6 +43,9 @@ const ProductManagement = () => {
 
     if (isLoading) return <p>Loading...</p>;
     if (isError) return <p>Error</p>;
+    if (userRole != 'admin') {
+        navigate('/rolelimit');
+    }
     return (
         <div>
             <Link className="btn btn-primary" to='/admin/products/add'>Add Products</Link>

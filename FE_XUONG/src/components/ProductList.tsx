@@ -13,7 +13,7 @@ const ProductList = ({ featured }: ProductListProps) => {
     const navigate = useNavigate();
     const querryClient = useQueryClient();
     const [user] = useLocalStorage('user', []);
-    const userId = user?.user._id;
+    const userId = user?.user?._id;
     const { data: products, isLoading, isError } = useProductQuery();
     const { mutate } = useMutation({
         mutationFn: async ({ productId, quantity }: { productId: any, quantity: number }) => {

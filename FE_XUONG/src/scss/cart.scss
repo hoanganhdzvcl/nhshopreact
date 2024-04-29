@@ -1,5 +1,9 @@
 @import "./index.scss";
+$font-poppins: "Poppins", sans-serif;
 
+* {
+    font-family: $font-poppins;
+}
 .infocart {
     &__info {
         margin-top: 73px;

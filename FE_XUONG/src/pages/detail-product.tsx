@@ -22,12 +22,12 @@ const DetailProduct = () => {
     })
 
     const { id } = useParams();
-    const { data: product, isLoading } = useProductQuery(id!);
+    const { data: product, isLoading } = useProductQuery({ id: id! });
     console.log(product);
     const { data: relatedProduct } = useQuery({
-        queryKey: ["RELATED_PRODUCT", id],
+        queryKey: ["RELATED_PRODUCT"],
         queryFn: async () => {
-            const { data } = await axios.get(`http://localhost:8080/api/v1/products/${product.category}/related`, {
+            const { data } = await axios.get(`http://localhost:8080/api/v1/products/${product.category}/related/${product._id}`, {
                 params: {
                     _limit: 4
                 }
@@ -52,10 +52,6 @@ const DetailProduct = () => {
                 margin: 0 auto;
             box-sizing: border-box;
             padding: 0;
-}
-
-            .container {
-                max - width: 1440px;
 }
 
             header {
@@ -96,7 +92,7 @@ const DetailProduct = () => {
 }
 
             .detai-navigate {
-                background - color: #F9F1E7;
+                background-color:#f9f1e7
 }
 
             .detai-navigate .child {
@@ -108,20 +104,8 @@ const DetailProduct = () => {
             margin-right: 1000px;
 }
 
-            .product-name {
-                border - left: 2px solid #9F9F9F;
-            height: 40px;
-            width: 150px;
-            text-align: center;
-}
 
-            .product-name p {
-                margin - top: 8px;
-}
 
-            .page-name {
-                color: #9F9F9F;
-}
 
             .detail-product {
                 display: flex;
@@ -134,11 +118,11 @@ const DetailProduct = () => {
 }
 
             .detail-image img {
-                width: 50px;
+                width: 90px;
 }
 
             .box-center img {
-                width: 500px;
+                width: 600px;
             object-fit: cover;
             padding: 0px 30px;
 }
@@ -173,6 +157,11 @@ const DetailProduct = () => {
                 margin - top: 50px;
             margin-right: 30px;
 }
+.addToCart p{
+    text-align: center;
+    padding-top:20px;
+    margin-left:55px
+}
 
             .addToCart,
             .selectQuantity,
@@ -181,6 +170,9 @@ const DetailProduct = () => {
                 align - items: center;
             display: flex;
             height: 65px;
+}
+.quantity{
+    padding-top:20px
 }
 
             .selectQuantity {
@@ -282,6 +274,15 @@ const DetailProduct = () => {
             font-size: 36px;
             line-height: 36px;
 }
+.image-item img{
+    width: 400px;
+    height: 200px;
+    object-fit: cover;
+}
+
+.more {
+margin-left: 600px
+}
 
             .more p {
                 font - weight: 600;
@@ -302,13 +303,13 @@ const DetailProduct = () => {
                 <div className="detai-navigate">
                     <div className="child">
                         <div className="page-name">
-                            <p>Home</p>
+                            <p>Home {">"}</p>
                         </div>
                         <div className="engle-right">
                             <i className="fa-solid fa-angle-right" />
                         </div>
                         <div className="page-name">
-                            <p>Shop</p>
+                            <p>Shop {">"}</p>
                         </div>
                         <div className="engle-right">
                             <i className="fa-solid fa-angle-right" />
@@ -320,16 +321,16 @@ const DetailProduct = () => {
                 </div>
                 <div className="detail-product">
                     <div className="box-left">
-                        <div className="detail-image">
+                        <div className="detail-image" style={{ padding: 10 }}>
                             <img src={product.gallery[0]} alt='' />
                         </div>
-                        <div className="detail-image">
+                        <div className="detail-image" style={{ padding: 10 }}>
                             <img src={product.gallery[1]} alt='' />
                         </div>
-                        <div className="detail-image">
+                        <div className="detail-image" style={{ padding: 10 }}>
                             <img src={product.image} alt='' />
                         </div>
-                        <div className="detail-image">
+                        <div className="detail-image" style={{ padding: 10 }}>
                             <img src={product.image} alt='' />
                         </div>
                     </div>
@@ -349,9 +350,7 @@ const DetailProduct = () => {
                         </div>
                         <div className="addToCart">
                             <div className="selectQuantity">
-                                <div className="minus"><i className="fa-solid fa-minus" /></div>
                                 <div className="quantity">1</div>
-                                <div className="plus"><i className="fa-solid fa-plus" /></div>
                             </div>
                             <div className="add" onClick={() => mutate({ productId: product._id, quantity: 1 })}>
                                 <p>Add To Cart</p>

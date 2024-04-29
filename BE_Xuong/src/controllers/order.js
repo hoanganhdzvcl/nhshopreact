@@ -26,9 +26,13 @@ export const getOrders = async (req, res) => {
 
 
 export const getOrderById = async (req, res) => {
+    console.log('Order');
     try {
+        console.log(req.params);
         const { userId, orderId } = req.params;
+        console.log({ userId, orderId });
         const order = await Order.findOne({ userId, _id: orderId });
+        console.log(order);
         if (!order) {
             return res.status(StatusCodes.NOT_FOUND).json({ error: "Order not found" });
         }
@@ -38,7 +42,7 @@ export const getOrderById = async (req, res) => {
     }
 };
 
-// Controller để cập nhật thông tin của một đơn hàng
+
 export const updateOrder = async (req, res) => {
     const orderId = req.params.id;
     try {
@@ -61,8 +65,8 @@ export const updateOrder = async (req, res) => {
 export const deleteOrder = async (req, res) => {
     const orderId = req.params.id;
     try {
-        const deletedOrder = await Order.findByIdAndDelete(orderId);
-        if (!deletedOrder) {
+        const updatedOrder = await Order.findByIdAndUpdate(orderId);
+        if (!updatedOrder) {
             return res.status(404).json({ message: "Order not found" });
         }
         res.status(200).json({ message: "Order deleted successfully" });

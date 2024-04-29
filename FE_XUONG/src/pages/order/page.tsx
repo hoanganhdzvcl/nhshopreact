@@ -1,25 +1,23 @@
-import UseCart from '@/hooks/useCart'
-import { useLocalStorage } from '@/hooks/useStorage';
-import { IProduct } from '@/interfaces/product';
-import { useForm } from 'react-hook-form';
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/button";
 import {
     Form,
     FormControl,
-    FormDescription,
     FormField,
     FormItem,
     FormLabel,
-    FormMessage,
+    FormMessage
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { useToast } from '@/components/ui/use-toast';
+import UseCart from '@/hooks/useCart';
+import { useLocalStorage } from '@/hooks/useStorage';
+import { IProduct } from '@/interfaces/product';
+import '@/scss/cart.scss';
+import { joiResolver } from '@hookform/resolvers/joi';
 import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
 import Joi from 'joi';
-import { joiResolver } from '@hookform/resolvers/joi';
-import { useToast } from '@/components/ui/use-toast';
-import '@/scss/cart.scss';
-import { Link } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
 
 const orderSchema = Joi.object({
     name: Joi.string().required().min(3),
@@ -49,6 +47,7 @@ const OrderPage = () => {
             toast({
                 title: 'Order Successful',
                 variant: 'success',
+                duration: 3000,
             })
         }
     })
@@ -110,11 +109,11 @@ const OrderPage = () => {
                                     </FormItem>
                                 )}
                             />
-                            <Button type="submit">Done your deal</Button>
+                            <Button type="submit">Place order</Button>
                         </form>
                     </Form>
                 </div>
-                <div className="col-span-4 infocart__checkout">
+                <div className="col-span-4 infocart__checkout" style={{ width: 450 }}>
                     {data?.products?.map((item: IProduct) => (
                         <div key={item?._id} className='border-b py-4'>
                             <h4>{item.name}</h4>
@@ -122,10 +121,10 @@ const OrderPage = () => {
                             <p>Quantity: {item.quantity}</p>
                         </div>
                     ))}
-                    <p className='mt-5'>
+                    {/* <p className='mt-5'>
                         <strong className='mr-2'>Product:</strong>
                         {data?.product ? data?.products.quantity : 0}
-                    </p>
+                    </p> */}
 
                     <p>
                         <strong className='mr-2'>Total:</strong>

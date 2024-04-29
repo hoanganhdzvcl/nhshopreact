@@ -26,6 +26,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Joi from "joi";
+import { useLocalStorage } from "@/hooks/useStorage";
 // type Inputs = {
 //     name: string;
 //     category?: string;
@@ -55,7 +56,8 @@ const ProductEditPage = () => {
     const navigate = useNavigate();
     const { toast } = useToast();
     const { id } = useParams();
-
+    const [user] = useLocalStorage('user', {});
+    const userRole = user?.user?.role;
     const [gallery, setGallery] = useState<any[]>([]);
     const [image, setImage] = useState<string>();
     const [category, setCategory] = useState<string>("");
@@ -78,6 +80,7 @@ const ProductEditPage = () => {
             toast({
                 title: "Cập nhật sản phẩm thành công",
                 variant: "success",
+                duration: 2000,
             });
             navigate("/admin/products");
         }
@@ -104,6 +107,9 @@ const ProductEditPage = () => {
     };
 
     if (isLoading) return <p>Loading...</p>
+    if (userRole != 'admin') {
+        navigate('/rolelimit');
+    }
     return (
         <div className="max-w-screen-md mx-auto">
             <div className="space-y-0.5">

@@ -17,8 +17,9 @@ import CartPage from "./pages/Cart";
 import OrderPage from "./pages/order/page";
 import ProductAddPage from "./pages/admin/product/add";
 import OrderManager from "./pages/admin/order";
-import EditOrderPage from "./pages/admin/order/edit";
+// import EditOrderPage from "./pages/admin/order/edit";
 import Signup from "./pages/Signup";
+import RoleLimit from "./pages/RoleLimit";
 function App() {
     return (
         <>
@@ -35,6 +36,7 @@ function App() {
                     <Route path="signup" element={<Signup />} />
                     <Route path="cart" element={<CartPage />} />
                     <Route path="order" element={<OrderPage />} />
+                    <Route path="rolelimit" element={<RoleLimit />} />
 
                 </Route>
 
@@ -43,7 +45,7 @@ function App() {
                     <Route path="products/:id/edit" element={<ProductEditPage />}></Route>
                     <Route path="products/add" element={<ProductAddPage />}></Route>
                     <Route path="orders" element={<OrderManager />}></Route>
-                    <Route path="orders/:userId/:id/edit" element={<EditOrderPage />}></Route>
+                    {/* <Route path="orders/:userId/:id/edit" element={<EditOrderPage />}></Route> */}
                 </Route>
                 <Route path="*" element={<NotFound />}></Route>
             </Routes>

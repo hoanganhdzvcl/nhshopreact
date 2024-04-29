@@ -36,7 +36,9 @@ const Signin = () => {
                     duration: 3000,
                 }),
                 console.log(data),
-                navigate('/');
+                setTimeout(() => {
+                    navigate('/');
+                }, 500)
         },
         onError: (error: any) => {
             alert('Sai thông tin đăng nhập, vui lòng kiểm tra lại'),
@@ -48,17 +50,6 @@ const Signin = () => {
         mutate(formData);
     }
     return (
-        // <div className='container'>
-        //     <form action="" onSubmit={handleSubmit(onSubmit)}>
-        //         <input type="text" {...register('email', { required: true, minLength: 3 })} placeholder='Email' />
-        //         {errors.email && <p>{errors.email.message}</p>}
-        //         <input type="password" {...register('password', { required: true, minLength: 6 })} placeholder='Password' />
-        //         {errors.password && <p>{errors.password.message}</p>}
-        //         <button>Sign In</button>
-        //     </form>
-
-        // </div>
-
         <section className='signin'>
             <form onSubmit={handleSubmit(onSubmit)}>
                 <div className='title'>

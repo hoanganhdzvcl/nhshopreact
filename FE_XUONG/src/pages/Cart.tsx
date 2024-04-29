@@ -2,13 +2,28 @@ import UseCart from '@/hooks/useCart';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Link } from 'react-router-dom';
 import '@/scss/cart.scss';
+import { removecart } from '@/components/icons';
 
 const CartPage = () => {
     const { data, mutate, calculateTotal, isLoading, isError } = UseCart();
+
     if (isLoading) return <p>Loading...</p>;
     if (isError) return <p>Error...</p>;
 
     console.log(data);
+    if (!data.products || data.products.length === 0) {
+        return <div className="container">
+            <ul className='infocart__listheader'>
+                <li className='img'></li>
+                <li className='name'>Product</li>
+                <li className='price'>Price</li>
+                <li className='quantity'>Quantity</li>
+                <li className='subtotal'>Subtotal</li>
+                <li className='remove'></li>
+            </ul>
+            <p>Cart is empty</p>
+        </div>;
+    }
 
     return (
         <div className='container'>
@@ -50,11 +65,13 @@ const CartPage = () => {
                                         </div>
                                     </div>
                                     <p className='infocart__subtotalitem subtotal'>{Math.ceil(product.quantity * product.price)} $</p>
-                                    {/* <div className='remove'>
+                                    <div className='remove'>
                                         <div className='infocart__removeitem'>
-                                            <img src={removeIcon} alt='' />
+                                            <img src={removecart} alt=''
+                                                onClick={() => mutate({ action: 'REMOVE', productId: product.productId })}
+                                            />
                                         </div>
-                                    </div> */}
+                                    </div>
                                 </li>
                             ))}
                         </ul>

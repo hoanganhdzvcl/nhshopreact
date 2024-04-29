@@ -30,6 +30,7 @@ import { useState } from "react";
 // import { useProductQuery } from "@/hooks/useProductQuery";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useLocalStorage } from "@/hooks/useStorage";
 // import { useLocalStorage } from "@/hooks/useStorage";
 // type Inputs = {
 //     name: string;
@@ -57,6 +58,9 @@ const productSchema = Joi.object({
 
 
 const ProductAddPage = () => {
+    const [user] = useLocalStorage('user', {});
+    const userRole = user?.user?.role;
+    const navigate = useNavigate();
     const [gallery, setGallery] = useState<any[]>([]);
     const [image, setImage] = useState<string[]>([]);
     const { toast } = useToast();
@@ -73,7 +77,6 @@ const ProductAddPage = () => {
             return res.data;
         },
     });
-    const navigate = useNavigate();
     const mutation = useMutation({
         mutationFn: async (product: IProduct) => {
             const { data } = await addProduct(product);
@@ -95,6 +98,9 @@ const ProductAddPage = () => {
 
         mutation.mutate({ ...product, gallery: newGallery, image });
     };
+    if (userRole != 'admin') {
+        navigate('/rolelimit');
+    }
     return (
         <div>
             <h2 className="text-2xl font-semibold">Thêm sản phẩm</h2>
